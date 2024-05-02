@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import java.lang.Number;
 
 public class TrainingRecordGUI extends JFrame implements ActionListener {
 
@@ -27,6 +26,7 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     private JLabel labdist = new JLabel(" Distance (km):");
     private JButton addR = new JButton("Add");
     private JButton lookUpByDate = new JButton("Look Up");
+    private JButton lookUpByName = new JButton("Look Up By Name"); // Added button
 
     private TrainingRecord myAthletes = new TrainingRecord();
 
@@ -68,15 +68,13 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         addR.addActionListener(this);
         add(lookUpByDate);
         lookUpByDate.addActionListener(this);
+        add(lookUpByName); // Added button
+        lookUpByName.addActionListener(this); // Added action listener
         add(outputArea);
         outputArea.setEditable(false);
         setSize(720, 200);
         setVisible(true);
         blankDisplay();
-
-        // To save typing in new entries while testing, uncomment
-        // the following lines (or add your own test cases)
-        
     } // constructor
 
     // listen for and respond to GUI events 
@@ -87,6 +85,9 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         }
         if (event.getSource() == lookUpByDate) {
             message = lookupEntry();
+        }
+        if (event.getSource() == lookUpByName) { // Check for Look Up By Name button
+            message = lookupByName(); // Call lookupByName method
         }
         outputArea.setText(message);
         blankDisplay();
@@ -109,11 +110,23 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     }
     
     public String lookupEntry() {
-        int m = Integer.parseInt(month.getText());
-        int d = Integer.parseInt(day.getText());
-        int y = Integer.parseInt(year.getText());
+        String message;
+        try {
+            int m = Integer.parseInt(month.getText());
+            int d = Integer.parseInt(day.getText());
+            int y = Integer.parseInt(year.getText());
+            outputArea.setText("looking up record ...");
+            message = myAthletes.lookupEntry(d, m, y);
+        } catch (NumberFormatException e) {
+            message = "Invalid date format. Please enter valid integers for day, month, and year.";
+        }
+        return message;
+    }
+    
+    public String lookupByName() { // Added method for looking up by name
+        String n = name.getText();
         outputArea.setText("looking up record ...");
-        String message = myAthletes.lookupEntry(d, m, y);
+        String message = myAthletes.lookupEntry(n);
         return message;
     }
 
@@ -126,8 +139,8 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         mins.setText("");
         secs.setText("");
         dist.setText("");
-
     }// blankDisplay
+
     // Fills the input fields on the display for testing purposes only
     public void fillDisplay(Entry ent) {
         name.setText(ent.getName());
@@ -139,6 +152,4 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         secs.setText(String.valueOf(ent.getSec()));
         dist.setText(String.valueOf(ent.getDistance()));
     }
-
 } // TrainingRecordGUI
-

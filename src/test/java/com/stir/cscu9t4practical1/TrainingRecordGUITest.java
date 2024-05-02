@@ -1,33 +1,15 @@
-/*
- * Test class for TrainingRecordGUI
- * It is not finished as we're not expecting you to implement GUI testing
- * However, you're welcome to use this starter template and extend it and add
- * test for public methods you implement in TrainingRecordGUI.java
- */
+// TrainingRecordGUITest.java
 package com.stir.cscu9t4practical1;
 
-import java.awt.event.ActionEvent;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.*;
+import java.lang.reflect.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.*;
-// Only used if you want to use reflection to test private features
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import javax.swing.JButton;
-
-
-
-
-/**
- *
- * @author saemundur
- */
 public class TrainingRecordGUITest {
 
     public TrainingRecordGUITest() {
@@ -79,10 +61,10 @@ public class TrainingRecordGUITest {
         TrainingRecordGUI instance = new TrainingRecordGUI();
         instance.blankDisplay();
     }
-    
+
     /**
      * Test of addEntry method, of class TrainingRecordGUI
-     * 
+     *
      */
     @Test
     public void testAddEntry(){
@@ -94,13 +76,13 @@ public class TrainingRecordGUITest {
         System.out.println(message);
         assertEquals(message,"Record added\n");
     }
-    
+
     /**
      * Test to see if all display requirements have been met
      */
     @Test
     public void testButtonsPresentInGUI() throws IllegalAccessException, IllegalArgumentException{
-        System.out.println("Check if you have added the buttons"); 
+        System.out.println("Check if you have added the buttons");
         TrainingRecordGUI instance = new TrainingRecordGUI();
         Class<?> instanceClass = instance.getClass();
         String[] expectedFields = {"findAllByDate","lookUpByDate"}; // add RemoveEntry when it is ready
@@ -116,3 +98,4 @@ public class TrainingRecordGUITest {
         assertEquals(found,expectedFields.length,"Have you added all required buttons?");
     }
 }
+

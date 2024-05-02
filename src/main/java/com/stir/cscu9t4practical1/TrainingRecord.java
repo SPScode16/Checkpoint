@@ -1,43 +1,54 @@
-// An implementation of a Training Record as an ArrayList
+// TrainingRecord.java
 package com.stir.cscu9t4practical1;
 
-
-
-
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrainingRecord {
-    private List<Entry> tr;
-    
+    private List<Entry> entries;
+
     public TrainingRecord() {
-        tr = new ArrayList<Entry>();
-    } //constructor
-    
-    // add a record to the list
-   public void addEntry(Entry e){
-       tr.add(e);    
-   } // addClass
-   
-   // look up the entry of a given day and month
-   public String lookupEntry (int d, int m, int y) {
-       ListIterator<Entry> iter = tr.listIterator();
-       String result = "No entries found";
-       while (iter.hasNext()) {
-          Entry current = iter.next();
-          if (current.getDay()==d && current.getMonth()==m && current.getYear()==y) 
-             result = current.getEntry();
+        entries = new ArrayList<>();
+    }
+
+    public void addEntry(Entry entry) {
+        entries.add(entry);
+    }
+
+    // Lookup entry by date
+    public String lookupEntry(int day, int month, int year) {
+        StringBuilder result = new StringBuilder();
+        boolean found = false;
+        for (Entry e : entries) {
+            if (e.getDay() == day && e.getMonth() == month && e.getYear() == year) {
+                result.append(e.getEntry()).append("\n");
+                found = true;
             }
-       return result;
-   } // lookupEntry
-   
-   // Count the number of entries
-   public int getNumberOfEntries(){
-       return tr.size();
-   }
-   // Clear all entries
-   public void clearAllEntries(){
-       tr.clear();
-   }
-   
-} // TrainingRecord
+        }
+        if (!found) {
+            result.append("Sorry couldn't find anything for this date");
+        }
+        return result.toString();
+    }
+
+    // Lookup entry by athlete's name
+    public String lookupEntry(String name) {
+        StringBuilder result = new StringBuilder();
+        boolean found = false;
+        for (Entry e : entries) {
+            if (e.getName().equals(name)) {
+                result.append(e.getEntry()).append("\n");
+                found = true;
+            }
+        }
+        if (!found) {
+            result.append("Sorry couldn't find anything for this athlete");
+        }
+        return result.toString();
+    }
+
+    public Integer getNumberOfEntries() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getNumberOfEntries'");
+    }
+}
